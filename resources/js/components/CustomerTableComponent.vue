@@ -18,7 +18,6 @@
                 sort-by="first_name"
                 :server-items-length="totalCustomers"
                 :loading="loading"
-                show-select
                 class="elevation-1"
             >
                 <template v-slot:top>

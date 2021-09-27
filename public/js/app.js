@@ -2271,6 +2271,9 @@ __webpack_require__.r(__webpack_exports__);
         this.initialize();
       },
       deep: true
+    },
+    search: function search() {
+      this.initialize();
     }
   },
   created: function created() {
@@ -2279,8 +2282,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     initialize: function initialize() {
       this.loading = true;
-      console.log(this.options);
-      axios.get('api/customers/data?page=' + this.options.page).then(function (res) {
+      axios.get('api/customers/data?page=' + this.options.page + '&q=' + this.search).then(function (res) {
         this.customers = res.data.data;
         this.totalCustomers = res.data.total;
         this.loading = false;
