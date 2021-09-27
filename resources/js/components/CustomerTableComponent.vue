@@ -18,6 +18,7 @@
                 sort-by="first_name"
                 :server-items-length="totalCustomers"
                 :loading="loading"
+                show-select
                 class="elevation-1"
             >
                 <template v-slot:top>
@@ -192,6 +193,9 @@ export default {
             },
             deep: true,
         },
+        search() {
+            this.initialize();
+        }
     },
 
     created () {
@@ -201,8 +205,7 @@ export default {
     methods: {
         initialize: function () {
             this.loading = true
-            console.log(this.options);
-            axios.get('api/customers/data?page=' + this.options.page)
+            axios.get('api/customers/data?page=' + this.options.page + '&q=' + this.search)
                 .then(function (res) {
                     this.customers = res.data.data;
                     this.totalCustomers = res.data.total

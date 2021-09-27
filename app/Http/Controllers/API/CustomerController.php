@@ -135,10 +135,15 @@ class CustomerController extends Controller
 
     public function getCustomers(Request $request)
     {
-        $per_page = empty(request('per_page')) ? 10 : (int)request('per_page');
+        $search_str = trim($request->q);
         try {
-            $customers = Customer::paginate($per_page);
-            return response()->json($customers);
+            $customers = Customer::when($search_str, function ($query, $search_str) {
+                return $query->where('first_name', 'LIKE', '%'.$search_str.'%')
+                    ->orWhere('last_name', 'LIKE', '%'.$search_str.'%')
+                    ->orWhere('email', 'LIKE', '%'.$search_str.'%')
+                    ->orWhere('mobile_number', 'LIKE', '%'.$search_str.'%');
+            })->paginate(10);
+            return response()->json($customers, 200);
         } catch (\Exception $e) {
             return response($e->getMessage(), 400);
         }
