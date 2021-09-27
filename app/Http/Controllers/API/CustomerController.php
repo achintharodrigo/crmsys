@@ -135,8 +135,9 @@ class CustomerController extends Controller
 
     public function getCustomers(Request $request)
     {
+        $per_page = empty(request('per_page')) ? 10 : (int)request('per_page');
         try {
-            $customers = Customer::paginate(10);
+            $customers = Customer::paginate($per_page);
             return response()->json($customers);
         } catch (\Exception $e) {
             return response($e->getMessage(), 400);

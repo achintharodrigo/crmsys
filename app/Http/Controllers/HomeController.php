@@ -39,7 +39,10 @@ class HomeController extends Controller
 
         foreach ($data as $key => $line)
         {
-            $customer = new Customer();
+            $customer = Customer::where('email', trim($line[2]))->first();
+            if (!$customer) {
+                $customer = new Customer();
+            }
 
             $customer->first_name = isset($line[0]) ? trim($line[0]) : null;
             $customer->last_name = isset($line[1]) ? trim($line[1]) : null;
